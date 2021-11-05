@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  background-color: #fbf7fe;
+
 }
 
 .App-logo {
@@ -14,7 +16,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #35124a;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -28,6 +30,12 @@
   color: #61dafb;
 }
 
+#Top-Dashboard{
+  display: flex;
+  flex-direction: row;
+  height: 750px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -35,4 +43,20 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+#Current-Leaders-Table{
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+  width: 50%;
+  margin: 1%;
+}
+
+.Table-Row{
+  overflow-x: auto;
+}
+
+#Sub-Heading{
+  text-align: left;
 }
