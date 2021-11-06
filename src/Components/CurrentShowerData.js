@@ -27,7 +27,7 @@ const CurrentShowerData = ({ props }) => {
                     <th>Breakdown</th>
                     <th>Available</th>
                     <th>Odds of Egg</th>
-                    <th>Min Contribution</th>
+                    <th>Min Contribution (UST)</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,7 +36,7 @@ const CurrentShowerData = ({ props }) => {
                     <td>Top 10</td>
                     <td>10</td>
                     <td>100%</td>
-                    <td> {props[10].amount} UST </td>
+                    <td> {props[10].amount} </td>
                 </tr>
                 <tr >
                     <td>Ancient</td>
@@ -57,7 +57,7 @@ const CurrentShowerData = ({ props }) => {
                     <td>Remainder</td>
                     <td>101</td>
                     <td> {((101/(props.length*0.69 - 10))*100).toFixed(2)}%  </td>
-                    <td> 8 UST </td>
+                    <td> 8 </td>
                 </tr>
             </tbody>
         </table>

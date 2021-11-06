@@ -23,7 +23,7 @@ const CurrentHistogram = ({ props }) => {
       >
 
         <VictoryHistogram
-          style={{ data: { fill: "#c43a31" } }}
+          style={{ data: { fill: "cyan" } }}
           data={props}
           bins={20}
           x="amount"

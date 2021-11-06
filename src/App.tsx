@@ -8,6 +8,7 @@ import CurrentHistogram from './Components/CurrentHistogram';
 import CurrentShowerData from './Components/CurrentShowerData';
 import HistoricalPriceChart from './Components/HistoricalPriceChart';
 import ClipLoader from "react-spinners/ClipLoader";
+import { stringify } from 'querystring';
 
 
 function App() {
@@ -141,7 +142,7 @@ function App() {
 
   function getIsLoading(){
     if(isLoading){
-      return <h2> Querying BlockChain <h3> (Can take up to a 1 minute to process)</h3></h2>
+      return <h2> Querying BlockChain <h3> (Can take a few minutes to process)</h3></h2>
     }
     return ""
   }
@@ -197,15 +198,6 @@ function App() {
         </Container>
         <p>
         </p>
-        
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Querying Blockchain :o   
-        </a>
     </div>
   );
 }
