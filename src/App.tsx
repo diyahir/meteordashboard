@@ -7,11 +7,16 @@ import { Container } from 'semantic-ui-react';
 import CurrentHistogram from './Components/CurrentHistogram';
 import CurrentShowerData from './Components/CurrentShowerData';
 import HistoricalPriceChart from './Components/HistoricalPriceChart';
+import ClipLoader from "react-spinners/ClipLoader";
 
 
 function App() {
 
   const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  // const [numRequests, setNumRequests] = useState(0);
+
+
   let STARTTIME = new Date(2021,10,1,5).getTime()
   const NUMBEROFSHOWERS = 10;
   const TERRAWALLET = "terra193xyvyk5c6f46k87x9nq7gcg305dk37nzm7vdt"
@@ -63,6 +68,7 @@ function App() {
     var allParsedTxs = [] as any;
 
     while(tryNext){
+      // setNumRequests(numRequests + 1);
       await axios.get(request).then(
         res => {
           // console.log(res)
@@ -83,6 +89,7 @@ function App() {
     // console.log(allParsedTxs)
     allParsedTxs.reverse();
     setData(parseByShower(allParsedTxs));
+    setIsLoading(false)
     // console.log(parseByShower(allParsedTxs));
   }
 
@@ -132,6 +139,12 @@ function App() {
   }
 
 
+  function getIsLoading(){
+    if(isLoading){
+      return <h2> Querying BlockChain <h3> (Can take up to a 1 minute to process)</h3></h2>
+    }
+    return ""
+  }
   function parseRawTxs(unparsedtTxs:any){
 
     var parsedArray = [] as any;
@@ -166,7 +179,9 @@ function App() {
         </h2>
         </Container>
        
-        
+       {getIsLoading()}
+       <ClipLoader  loading={isLoading} size={150} />
+
         <Container id="Top-Dashboard">
           <CurrentLeadersTable props = {data[CURRENTSHOWER]}/>
           <Container>
