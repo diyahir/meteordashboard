@@ -26,11 +26,14 @@ const HistoricalPriceChart = ({ props }) => {
         var rarePrices = []
         var commonPrices = []
 
+        console.log(props)
         for (var i = 0; i < props.length; i++){
-            legendaryPrices.push({x:i,y:getLegendaryPrice(props[i])})
-            ancientPrices.push({x:i,y:getAncientPrice(props[i])})
-            rarePrices.push({x:i,y:getRarePrice(props[i])})
-            commonPrices.push({x:i,y:8})
+            if (props[i].length > 0){
+                legendaryPrices.push({x:i,y:getLegendaryPrice(props[i])})
+                ancientPrices.push({x:i,y:getAncientPrice(props[i])})
+                rarePrices.push({x:i,y:getRarePrice(props[i])})
+                commonPrices.push({x:i,y:8})
+            }     
         }
 
         // console.log(legendaryPrices)
@@ -44,7 +47,8 @@ const HistoricalPriceChart = ({ props }) => {
         if(showerData.length >= 10){
             return showerData[10].amount
         }
-        return showerData[showerData.length].amount
+        console.log(showerData)
+        return showerData[showerData.length-1].amount
     }
 
     function getAncientPrice(showerData){

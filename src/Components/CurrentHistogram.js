@@ -26,10 +26,11 @@ const CurrentHistogram = ({ props }) => {
           style={{ data: { fill: "cyan" } }}
           data={props}
           bins={20}
+          binSpacing={4}
           x="amount"
           labels={({ datum }) => getBarLabel(datum)}
         />
-        <VictoryAxis label="Contribution"/>
+        <VictoryAxis label="Contribution (UST)"/>
         <VictoryAxis dependentAxis label="Wallet Count"/>
 
       </VictoryChart>

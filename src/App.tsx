@@ -8,7 +8,6 @@ import CurrentHistogram from './Components/CurrentHistogram';
 import CurrentShowerData from './Components/CurrentShowerData';
 import HistoricalPriceChart from './Components/HistoricalPriceChart';
 import ClipLoader from "react-spinners/ClipLoader";
-import { stringify } from 'querystring';
 
 
 function App() {
@@ -18,9 +17,12 @@ function App() {
   // const [numRequests, setNumRequests] = useState(0);
 
 
-  let STARTTIME = new Date(2021,10,1,5).getTime()
-  const NUMBEROFSHOWERS = 10;
-  const TERRAWALLET = "terra193xyvyk5c6f46k87x9nq7gcg305dk37nzm7vdt"
+  // let DATE = new Date(2021,10,7)
+  let DATE = new Date(2021,10,8,8)
+
+  let STARTTIME = DATE.getTime()
+  const NUMBEROFSHOWERS = 44;
+  const TERRAWALLET = "terra1dax9mddsycvzkc429wwy494vhzhggw3d5594rt"
   const CURRENTSHOWER = getCurrentShowerIndex()
 
   // let STARTTIME = new Date(2021,10,1,12).getTime()
@@ -36,7 +38,7 @@ function App() {
 
   function getCurrentShowerIndex(){
     const currentTime = new Date().getTime()
-    const hoursSinceStart = Math.floor((currentTime - STARTTIME)/(60*60*100))
+    const hoursSinceStart = Math.floor((currentTime - STARTTIME)/(60*60*1000))
     if(hoursSinceStart>NUMBEROFSHOWERS){
       return NUMBEROFSHOWERS-1
     }
@@ -44,7 +46,7 @@ function App() {
   }
 
   function createRequest(accString:string,offset?:string){
-    var REQUESTURL = "https://bombay-fcd.terra.dev/v1/txs?"
+    var REQUESTURL = "https://fcd.terra.dev/v1/txs?"
     REQUESTURL +=  "account="+accString
     if (offset){
       REQUESTURL += "&offset="+offset
@@ -67,12 +69,12 @@ function App() {
     var request = createRequest(TERRAWALLET)
     var tryNext = true;
     var allParsedTxs = [] as any;
-
+    console.log("Starting Querries")
     while(tryNext){
       // setNumRequests(numRequests + 1);
       await axios.get(request).then(
         res => {
-          // console.log(res)
+          console.log("Number of TXs",allParsedTxs.length)
           var next = res.data.next;
           const unparsedtTxs = res.data.txs;
           // console.log(unparsedtTxs)
@@ -82,6 +84,7 @@ function App() {
           // console.log(allParsedTxs)
           request = createRequest(TERRAWALLET,next)
           if(tempParsedTxs.length < 100){
+            console.log("Stopping Querries")
             tryNext = false
           }
         }
@@ -89,6 +92,7 @@ function App() {
     } 
     // console.log(allParsedTxs)
     allParsedTxs.reverse();
+    console.log("Parsing by shower")
     setData(parseByShower(allParsedTxs));
     setIsLoading(false)
     // console.log(parseByShower(allParsedTxs));
@@ -148,6 +152,7 @@ function App() {
   }
   function parseRawTxs(unparsedtTxs:any){
 
+    // console.log(unparsedtTxs)
     var parsedArray = [] as any;
 
     for (var i = 0; i < unparsedtTxs.length; i++){
@@ -177,6 +182,9 @@ function App() {
         </h1>
         <h2 id="Sub-Heading">
             Current Shower: {CURRENTSHOWER + 1} / {NUMBEROFSHOWERS}
+        </h2>
+        <h2 id="Sub-Heading">
+            Start Time: {DATE.toString()}
         </h2>
         </Container>
        
