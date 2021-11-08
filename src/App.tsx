@@ -14,13 +14,14 @@ function App() {
 
   const [data, setData] = useState<any[]>([]);
   const [numParticipants, setNumParticipants] = useState(0);
+  const [numTxs, setNumTxs] = useState(0);
 
   const [isLoading, setIsLoading] = useState(true);
   // const [numRequests, setNumRequests] = useState(0);
 
 
   // let DATE = new Date(2021,10,7)
-  let DATE = new Date(2021,10,8,8)
+  let DATE = new Date(Date.UTC(2021,10,8,6))
 
   let STARTTIME = DATE.getTime()
   const NUMBEROFSHOWERS = 44;
@@ -46,6 +47,15 @@ function App() {
     }
     return hoursSinceStart
   }
+
+  function syncDelay(milliseconds:any){
+    var start = new Date().getTime();
+    var end=0;
+    while( (end-start) < milliseconds){
+        end = new Date().getTime();
+    }
+   }
+
 
   function createRequest(accString:string,offset?:string){
     var REQUESTURL = "https://fcd.terra.dev/v1/txs?"
@@ -83,13 +93,20 @@ function App() {
           const tempParsedTxs = parseRawTxs(unparsedtTxs)
           // console.log(tempParsedTxs)
           allParsedTxs =  allParsedTxs.concat(tempParsedTxs)
+          setNumTxs(allParsedTxs.length)
+
           // console.log(allParsedTxs)
           request = createRequest(TERRAWALLET,next)
+          if(allParsedTxs.length % 600 == 0){  
+            console.log("Before the delay")
+            syncDelay(7000);
+            console.log("After the delay")
+          }
           if(tempParsedTxs.length < 100){
             console.log("Stopping Querries")
             tryNext = false
           }
-          if(allParsedTxs.length > 700){
+          if(allParsedTxs.length > 10000){
             tryNext = false
           }
         }
@@ -153,7 +170,8 @@ function App() {
 
   function getIsLoading(){
     if(isLoading){
-      return <h2> Querying BlockChain <h3> (Can take a few minutes to process)</h3></h2>
+      return <h2> Querying BlockChain <h3> (Can take a few minutes to process) </h3>
+      <h3> Processing : {numTxs} transactions</h3></h2>
     }
     return ""
   }
