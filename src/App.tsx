@@ -12,7 +12,9 @@ import ClipLoader from "react-spinners/ClipLoader";
 
 function App() {
 
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any[]>([]);
+  const [numParticipants, setNumParticipants] = useState(0);
+
   const [isLoading, setIsLoading] = useState(true);
   // const [numRequests, setNumRequests] = useState(0);
 
@@ -87,14 +89,19 @@ function App() {
             console.log("Stopping Querries")
             tryNext = false
           }
+          if(allParsedTxs.length > 700){
+            tryNext = false
+          }
         }
       )
     } 
     // console.log(allParsedTxs)
     allParsedTxs.reverse();
     console.log("Parsing by shower")
-    setData(parseByShower(allParsedTxs));
+    const parsedTxs = parseByShower(allParsedTxs)
+    setData(parsedTxs);
     setIsLoading(false)
+    setNumParticipants(parsedTxs[CURRENTSHOWER].length)
     // console.log(parseByShower(allParsedTxs));
   }
 
@@ -185,6 +192,9 @@ function App() {
         </h2>
         <h2 id="Sub-Heading">
             Start Time: {DATE.toString()}
+        </h2>
+        <h2 id="Sub-Heading">
+            Total Wallets in this shower: {numParticipants}
         </h2>
         </Container>
        
