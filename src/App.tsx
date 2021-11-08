@@ -167,16 +167,19 @@ function App() {
       const tempTx = unparsedtTxs[i];
       const tempTime = Date.parse(tempTx.timestamp);
       const tempFromAddress = tempTx.tx.value.msg[0].value.from_address;
-      const tempAmount = tempTx.tx.value.msg[0].value.amount[0];
-      
-      if (tempAmount.denom == 'uusd' && tempTime > STARTTIME){
-        const tempParsedTx = {
-          "timestamp":tempTime,
-          "from":tempFromAddress,
-          "amount": parseFloat((parseFloat(tempAmount.amount)*(10**-6)).toFixed(2))
+      if(tempTx.tx.value.msg[0].value.amount !== undefined){
+        const tempAmount = tempTx.tx.value.msg[0].value.amount[0];
+        if (tempAmount.denom == 'uusd' && tempTime > STARTTIME){
+          const tempParsedTx = {
+            "timestamp":tempTime,
+            "from":tempFromAddress,
+            "amount": parseFloat((parseFloat(tempAmount.amount)*(10**-6)).toFixed(2))
+          }
+          parsedArray.push(tempParsedTx)
         }
-        parsedArray.push(tempParsedTx)
       }
+      
+      
     }
     return parsedArray
   }
