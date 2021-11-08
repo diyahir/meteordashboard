@@ -20,7 +20,8 @@ function App() {
 
 
   // let DATE = new Date(2021,10,7)
-  let DATE = new Date(2021,10,8,8)
+  // let DATE = new Date(2021,10,8,8)
+  let DATE = new Date(Date.UTC(2021,10,8,6))
 
   let STARTTIME = DATE.getTime()
   const NUMBEROFSHOWERS = 44;
